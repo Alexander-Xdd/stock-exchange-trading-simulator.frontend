@@ -14,10 +14,10 @@ export const Header_base = () => {
                     <h2 className="nav-link active">|</h2>
                 </li>
                 <li className="nav-item">
-                    <Link className="nav-link" href="#">Акции</Link>
+                    <Link className="nav-link" to="/shares">Акции</Link>
                 </li>
                 <li className="nav-item">
-                    <Link className="nav-link" href="#">Фонды</Link>
+                    <Link className="nav-link" to="/etfs">Фонды</Link>
                 </li>
                 <li className="nav-item">
                     <Link className="nav-link" to="/currencies">Валюты</Link>

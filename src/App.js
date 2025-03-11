@@ -7,6 +7,9 @@ import Login from './routes/auth/Login';
 import Home from './Home';
 import Username from "./helpers/Username";
 import Currencies from "./routes/instruments_lists/Currencies";
+import Shares from "./routes/instruments_lists/Shares";
+import Etfs from "./routes/instruments_lists/Etfs";
+import ShareDetails from "./routes/instrument_details/ShareDetails";
 
 
 function App() {
@@ -18,6 +21,10 @@ function App() {
         <Route path="/" element={<Home />} />
         <Route path="/me" element={<Username />} />
         <Route path="/currencies" element={<Currencies />} />
+        <Route path="/shares" element={<Shares />} />
+        <Route path="/etfs" element={<Etfs />} />
+
+        <Route path="/shares/:figi" element={<ShareDetails />} />
       </Routes>
     </Router>
   );

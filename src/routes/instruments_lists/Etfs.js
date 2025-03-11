@@ -4,27 +4,32 @@ import axios from 'axios';
 import '../../forms/Instruments.css';
 import Username from "../../helpers/Username";
 import {Header_not_auth, Header_auth} from "../../components/Header";
-import {Arrow, PageIterator, SortHandler} from "../../components/Instruments"
+import {Arrow, FilterHandler, PageIterator, SortHandler} from "../../components/Instruments"
 import {numDisable, perc} from "../../helpers/Others";
 import {Footer} from "../../components/Fotter";
 import {Link} from "react-router-dom";
 
 
-function Currencies(){
+function Etfs(){
     const auth = Username().username;
 
     const [data, setData] = useState(null); // Состояние для хранения данных
     const [page, setPage] = useState(1);
-    const [sort_type, setSort_type] = useState('prev_price_diff_increase');
+    const [sort_type, setSort_type] = useState('prev_price_diff_decrease');
+
+    const [filter_currency, setFilter_currency] = useState('');
+    const [filter_country, setFilter_country] = useState('');
 
     React.useEffect(() => {
         const data = new URLSearchParams();
         data.append('page', page.toString());
         data.append('sort_type', sort_type);
+        data.append('filter_currency', filter_currency);
+        data.append('filter_country', filter_country);
 
         const fetchData = async () => {
             try {
-                const response = await axios.get(`http://localhost:8081/get_currencies`, {
+                const response = await axios.get(`http://localhost:8081/get_etfs`, {
                     params: data,
                     headers: {
                         'accept': 'application/json',
@@ -37,23 +42,24 @@ function Currencies(){
                 }
         };
         fetchData(); // Вызываем функцию для получения данных
-    }, [page, sort_type]); // Зависимость, чтобы запрос выполнялся при изменении
+    }, [page, sort_type, filter_currency, filter_country]); // Зависимость, чтобы запрос выполнялся при изменении
 
-    if (!data) {
-        return <div>Загрузка данных...</div>; // Можно отобразить лоадер или сообщение
-    }
+
 
     return (
         <div>
             {auth === undefined ? <Header_not_auth/> : <Header_auth name={auth}/>}
 
             <div className="container">
-                <div className="mt-5 mb-3 h3">Каталог валюты</div>
+                <div className="mt-5 mb-3 h3">Каталог акций</div>
 
-                <SortHandler sort_type = {sort_type} setSort_type = {setSort_type}/>
+                <FilterHandler setFilter_currency = {setFilter_currency} setFilter_country = {setFilter_country} />
+
+                <SortHandler sort_type={sort_type} setSort_type={setSort_type}/>
 
                 <div>
-                    {data.map((item, index) => (
+                    {data ?
+                        data.map((item, index) => (
                         <Link className="text-decoration-none text-reset" to={item.figi}>
                             <div className="card mt-2 frame-inst" key={index}>
                                 <div className="card-body">
@@ -61,27 +67,35 @@ function Currencies(){
                                         <span className="d-flex justify-content-between">
                                             <span className="col-5 d-flex align-items-center">{item.name}</span>
                                             <span
-                                                className="col d-flex justify-content-center d-flex align-items-center">{item.price_units}.{numDisable(item.price_nano, 2)} RUB</span>
+                                                className="col d-flex justify-content-center d-flex align-items-center">{item.price_units}.{numDisable(item.price_nano, 2)} {(item.currency).toLocaleUpperCase()}</span>
                                             <div className="col row d-flex justify-content-center">
                                                 <span
-                                                    className="d-flex justify-content-center ">{item.prev_price_diff} ₽</span>
+                                                    className="d-flex justify-content-center ">{item.prev_price_diff} {(item.currency).toLocaleUpperCase()}</span>
                                                 <span
                                                     className={`d-flex justify-content-center small ${perc(item.price_units, item.price_nano, item.prev_price_diff) > 0 ? 'text-success' : perc(item.price_units, item.price_nano, item.prev_price_diff) < 0 ? 'text-danger' : ' '}`}> {perc(item.price_units, item.price_nano, item.prev_price_diff)} %</span>
                                             </div>
                                             <div className="col row d-flex justify-content-center">
                                                 <span
-                                                    className="d-flex justify-content-center">{item.first_price_diff} ₽</span>
-                                                <span className={`d-flex justify-content-center small ${perc(item.price_units, item.price_nano, item.first_price_diff) > 0 ? 'text-success' : perc(item.price_units, item.price_nano, item.first_price_diff) < 0 ? 'text-danger' : ' '}`}> {perc(item.price_units, item.price_nano, item.first_price_diff)} %</span>
+                                                    className="d-flex justify-content-center">{item.first_price_diff} {(item.currency).toLocaleUpperCase()}</span>
+                                                <span
+                                                    className={`d-flex justify-content-center small ${perc(item.price_units, item.price_nano, item.first_price_diff) > 0 ? 'text-success' : perc(item.price_units, item.price_nano, item.first_price_diff) < 0 ? 'text-danger' : ' '}`}> {perc(item.price_units, item.price_nano, item.first_price_diff)} %</span>
                                             </div>
                                         </span>
                                     </div>
                                 </div>
                             </div>
                         </Link>
-                    ))}
+                    ))
+                    :
+                        <div className="card mt-2 frame-inst">
+                            <div className="card-body">
+                                Загрузка
+                            </div>
+                        </div>
+                    }
                 </div>
 
-            <PageIterator page = {page} setPage = {setPage}/>
+                <PageIterator page={page} setPage={setPage}/>
 
             </div>
 
@@ -91,4 +105,4 @@ function Currencies(){
     )
 }
 
-export default Currencies
+export default Etfs

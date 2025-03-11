@@ -29,7 +29,9 @@ export function Footer() {
 
                 </div>
             </div>
-            <br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/>
+            <br/><br/><br/><br/><br/>
+            <span className="small d-flex justify-content-around text-black-50">Не является индивидуальной инвестиционной рекомендацией</span>
+            <br/><br/><br/>
         </footer>
     )
 }
