@@ -54,7 +54,10 @@ function Currencies(){
 
                 <div>
                     {data.map((item, index) => (
-                        <Link className="text-decoration-none text-reset" to={item.figi}>
+                        <Link className="text-decoration-none text-reset" state={{price_units: item.price_units,
+                            price_nano: item.price_nano,
+                            prev_diff: perc(item.price_units, item.price_nano, item.prev_price_diff),
+                            first_diff: perc(item.price_units, item.price_nano, item.first_price_diff)}} to={item.figi}>
                             <div className="card mt-2 frame-inst" key={index}>
                                 <div className="card-body">
                                     <div className="row">

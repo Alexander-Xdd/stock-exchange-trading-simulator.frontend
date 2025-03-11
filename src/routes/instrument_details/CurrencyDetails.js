@@ -8,7 +8,7 @@ import axios from "axios";
 import {Footer} from "../../components/Fotter";
 import {Chart} from "../../components/InstrumentDetails";
 
-const ShareDetails = () => {
+const CurrencyDetails = () => {
     const auth = Username().username;
 
     const [data, setData] = useState(null)
@@ -24,7 +24,7 @@ const ShareDetails = () => {
 
         const fetchData = async () => {
         try {
-            const response = await axios.get(`http://localhost:8081/get_share_by_figi`, {
+            const response = await axios.get(`http://localhost:8081/get_currency_by_figi`, {
                 params: data,
                 headers: {
                     'accept': 'application/json',
@@ -65,8 +65,7 @@ console.log(data)
                 <div className="card mt-5 w-25 col-auto text-center">
                     <div className="card-body d-flex flex-column">
                         <span className="small text-muted">Цена на {currentDate.getDate()}.{currentDate.getMonth()+1}.{currentDate.getFullYear()}</span>
-                        <span className="h4 fw-bold mt-4">{price_units}.{numDisable(price_nano, 2)} {data.currency.toLocaleUpperCase()}</span>
-                        <span className="small text-muted">1 лот = {data.lot} (акция)</span>
+                        <span className="h4 fw-bold mt-4">{price_units}.{numDisable(price_nano, 2)} RUB</span>
 
                         <button className="btn btn-primary mt-4">Купить</button>
                     </div>
@@ -76,20 +75,6 @@ console.log(data)
 
             <Chart price_history={data.price_history} name = {data.name}/>
 
-
-            <div className="d-flex justify-content-around">
-                <div className="card w-50 col-auto mt-4">
-                    <div className="card-body d-flex flex-column">
-                        <span className="h5 mb-4">Дополнительная информация</span>
-                        <span className="h6">Страна: {data.country_of_risk_name}</span>
-                        <span className="h6">Сектор: {(data.sector).toUpperCase()}</span>
-                        <span className="h6">Дивиденды: {(data.div_yield_flag).toString().toUpperCase()}</span>
-                        <span className="h6">FIGI: {data.figi}</span>
-                    </div>
-
-                </div>
-            </div>
-
         </div>
 
     <Footer/>
@@ -98,4 +83,4 @@ console.log(data)
     );
 };
 
-export default ShareDetails;
+export default CurrencyDetails;

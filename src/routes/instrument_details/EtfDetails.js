@@ -8,7 +8,7 @@ import axios from "axios";
 import {Footer} from "../../components/Fotter";
 import {Chart} from "../../components/InstrumentDetails";
 
-const ShareDetails = () => {
+const EtfDetails = () => {
     const auth = Username().username;
 
     const [data, setData] = useState(null)
@@ -24,7 +24,7 @@ const ShareDetails = () => {
 
         const fetchData = async () => {
         try {
-            const response = await axios.get(`http://localhost:8081/get_share_by_figi`, {
+            const response = await axios.get(`http://localhost:8081/get_etf_by_figi`, {
                 params: data,
                 headers: {
                     'accept': 'application/json',
@@ -83,7 +83,6 @@ console.log(data)
                         <span className="h5 mb-4">Дополнительная информация</span>
                         <span className="h6">Страна: {data.country_of_risk_name}</span>
                         <span className="h6">Сектор: {(data.sector).toUpperCase()}</span>
-                        <span className="h6">Дивиденды: {(data.div_yield_flag).toString().toUpperCase()}</span>
                         <span className="h6">FIGI: {data.figi}</span>
                     </div>
 
@@ -98,4 +97,4 @@ console.log(data)
     );
 };
 
-export default ShareDetails;
+export default EtfDetails;

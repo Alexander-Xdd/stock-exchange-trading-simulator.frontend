@@ -10,6 +10,8 @@ import Currencies from "./routes/instruments_lists/Currencies";
 import Shares from "./routes/instruments_lists/Shares";
 import Etfs from "./routes/instruments_lists/Etfs";
 import ShareDetails from "./routes/instrument_details/ShareDetails";
+import EtfDetails from "./routes/instrument_details/EtfDetails";
+import CurrencyDetails from "./routes/instrument_details/CurrencyDetails";
 
 
 function App() {
@@ -25,6 +27,8 @@ function App() {
         <Route path="/etfs" element={<Etfs />} />
 
         <Route path="/shares/:figi" element={<ShareDetails />} />
+        <Route path="/etfs/:figi" element={<EtfDetails />} />
+        <Route path="/currencies/:figi" element={<CurrencyDetails />} />
       </Routes>
     </Router>
   );
