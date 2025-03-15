@@ -12,6 +12,8 @@ import Etfs from "./routes/instruments_lists/Etfs";
 import ShareDetails from "./routes/instrument_details/ShareDetails";
 import EtfDetails from "./routes/instrument_details/EtfDetails";
 import CurrencyDetails from "./routes/instrument_details/CurrencyDetails";
+import Open from "./routes/account/Open";
+import AccountDetails from "./routes/account/AccountDetails";
 
 
 function App() {
@@ -20,7 +22,7 @@ function App() {
       <Routes>
         <Route path="/register" element={<Register />} />
         <Route path="/login" element={<Login />} />
-        <Route path="/" element={<Home />} />
+        <Route path="/" element={<AccountDetails />} />
         <Route path="/me" element={<Username />} />
         <Route path="/currencies" element={<Currencies />} />
         <Route path="/shares" element={<Shares />} />
@@ -29,6 +31,8 @@ function App() {
         <Route path="/shares/:figi" element={<ShareDetails />} />
         <Route path="/etfs/:figi" element={<EtfDetails />} />
         <Route path="/currencies/:figi" element={<CurrencyDetails />} />
+
+        <Route path="/open" element={<Open />} />
       </Routes>
     </Router>
   );

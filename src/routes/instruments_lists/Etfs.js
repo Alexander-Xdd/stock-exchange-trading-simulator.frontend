@@ -51,7 +51,7 @@ function Etfs(){
             {auth === undefined ? <Header_not_auth/> : <Header_auth name={auth}/>}
 
             <div className="container">
-                <div className="mt-5 mb-3 h3">Каталог акций</div>
+                <div className="mt-5 mb-3 h3">Каталог фондов</div>
 
                 <FilterHandler setFilter_currency = {setFilter_currency} setFilter_country = {setFilter_country} />
 

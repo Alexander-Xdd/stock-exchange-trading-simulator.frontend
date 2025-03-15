@@ -6,12 +6,14 @@ import {numDisable, perc} from "../../helpers/Others";
 import axios from "axios";
 
 import {Footer} from "../../components/Fotter";
-import {Chart} from "../../components/InstrumentDetails";
+import {Buy, Chart} from "../../components/InstrumentDetails";
 
 const ShareDetails = () => {
     const auth = Username().username;
 
     const [data, setData] = useState(null)
+    const [accs, setAccs] = useState(null)
+
     const { figi } = useParams();
     const location = useLocation();
     const { price_units, price_nano, prev_diff, first_diff  } = location.state;
@@ -21,6 +23,9 @@ const ShareDetails = () => {
     React.useEffect(() => {
         const data = new URLSearchParams();
         data.append('figi', figi);
+
+        const data_accs = new URLSearchParams();
+        data_accs.append('username', auth);
 
         const fetchData = async () => {
         try {
@@ -37,9 +42,27 @@ const ShareDetails = () => {
             }
         };
         fetchData(); // Вызываем функцию для получения данных
-    }, [figi]); // Зависимость, чтобы запрос выполнялся при изменении
 
-    if (!data) {
+        const getAccs = async () => {
+            try {
+                const response = await axios.get(`http://localhost:8082/get_accounts`, {
+                    params: data_accs,
+                    headers: {
+                        'accept': 'application/json',
+                    },
+                });
+                setAccs(response.data); // Сохраняем данные пользователя
+                } catch (error) {
+                    console.error('Failed to fetch data', error);
+                }
+            };
+        if (auth !== undefined) {
+            getAccs()
+        }
+
+    }, [figi, auth]); // Зависимость, чтобы запрос выполнялся при изменении
+
+    if (!data || !accs) {
         return <div></div>
     }
 console.log(data)
@@ -68,7 +91,7 @@ console.log(data)
                         <span className="h4 fw-bold mt-4">{price_units}.{numDisable(price_nano, 2)} {data.currency.toLocaleUpperCase()}</span>
                         <span className="small text-muted">1 лот = {data.lot} (акция)</span>
 
-                        <button className="btn btn-primary mt-4">Купить</button>
+                        <Buy accs={accs} auth={auth} figi={figi}/>
                     </div>
 
                 </div>
@@ -78,7 +101,7 @@ console.log(data)
 
 
             <div className="d-flex justify-content-around">
-                <div className="card w-50 col-auto mt-4">
+                <div className="card w-50 col-auto mt-5">
                     <div className="card-body d-flex flex-column">
                         <span className="h5 mb-4">Дополнительная информация</span>
                         <span className="h6">Страна: {data.country_of_risk_name}</span>

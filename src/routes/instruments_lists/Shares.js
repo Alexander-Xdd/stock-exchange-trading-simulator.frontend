@@ -45,7 +45,7 @@ function Shares({name}){
         };
         fetchData(); // Вызываем функцию для получения данных
     }, [page, sort_type, filter_currency, filter_country, filter_div]); // Зависимость, чтобы запрос выполнялся при изменении
-
+    console.log(data)
 
     return (
         <div>

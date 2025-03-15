@@ -48,7 +48,7 @@ function Currencies(){
             {auth === undefined ? <Header_not_auth/> : <Header_auth name={auth}/>}
 
             <div className="container">
-                <div className="mt-5 mb-3 h3">Каталог валюты</div>
+                <div className="mt-5 mb-3 h3">Каталог валют</div>
 
                 <SortHandler sort_type = {sort_type} setSort_type = {setSort_type}/>
 
